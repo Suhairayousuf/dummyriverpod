@@ -1,12 +1,12 @@
 // import 'package:dummyriverpod/main.dart';
 import 'dart:async';
 
-import 'package:dummyriverpod/features/auth/screens/update_product.dart';
+import 'package:dummyriverpod/features/product/screens/update_product.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/utils/utils.dart';
 import '../../../theme/pallete.dart';
-import 'add_product.dart';
+import '../../product/screens/add_product.dart';
 
 
 double? lat;

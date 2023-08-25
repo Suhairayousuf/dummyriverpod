@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'features/auth/screens/home.dart';
 import 'firebase_options.dart';
-final nameProvider  =   Provider((ref) => 'xyz');
+// final nameProvider  =   Provider((ref) => 'xyz');
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
