@@ -6,12 +6,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../core/utils/utils.dart';
 import '../../../model/product_model.dart';
 import '../../../theme/pallete.dart';
+import '../controller/product_controller.dart';
 
 
 
@@ -308,35 +310,43 @@ class _EditProductsState extends State<EditProducts> {
                                 Navigator.pop(buildcontext);
                               },
                                   child:  Text('Cancel',style:GoogleFonts.outfit())),
-                              TextButton(onPressed: () async {
-                                final productData = ProductModel(
-                                    amount:double.tryParse(amount.text!.toString()),
-                                    createdDate:DateTime.now(),
-                                    image:photourl,
-                                    productName:name.text,
-                                    description: discription.text,
-                                    // deal: _switchValue,
-                                    // offerPercentage:double.tryParse( percentage.text,)??0.00
+                              Consumer(
+                                builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                                  return TextButton(onPressed: () async {
+                                    final productData = ProductModel(
+                                      amount:double.tryParse(amount.text!.toString()),
+                                      createdDate:DateTime.now(),
+                                      image:photourl,
+                                      productName:name.text,
+                                      description: discription.text,
+                                      id: widget.data.id,
+                                      // deal: _switchValue,
+                                      // offerPercentage:double.tryParse( percentage.text,)??0.00
 
 
-                                );
-                                await updateProducts( productData,);
+                                    );
+                                    // await updateProducts( productData,);
+                                    await ref.read(productControllerProvider.notifier).
+                                    updateProduct(context: context, productmodel: productData);
 
-                                showSnackBar(context, 'Product updated succesfully'
-                                  ,);
-                                Navigator.pop(context);
-                                Navigator.pop(buildcontext);
+                                    showSnackBar(context, 'Product updated succesfully'
+                                      ,);
+                                    Navigator.pop(context);
+                                    Navigator.pop(buildcontext);
 
-                                photourl='';
-                                selectedEndtDate==null;
-                                selectedStartDate==null;
-                                setState(() {
+                                    photourl='';
+                                    selectedEndtDate==null;
+                                    selectedStartDate==null;
+                                    setState(() {
 
-                                });
+                                    });
 
-                                // Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => ManagePage(),), (route) => false);
-                              },
-                                  child: const Text('Yes')),
+                                    // Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => ManagePage(),), (route) => false);
+                                  },
+                                      child: const Text('Yes'));
+                                },
+
+                              ),
                             ],
                           );
 
@@ -396,12 +406,12 @@ class _EditProductsState extends State<EditProducts> {
     );
   }
 
-  updateProducts(ProductModel producData,) async {
-
-    FirebaseFirestore.instance.
-    // collection('shops').doc(producData.shopId).
-    collection('products').doc(widget.data.id).update(producData.toJson());
-
-
-  }
+  // updateProducts(ProductModel producData,) async {
+  //
+  //   FirebaseFirestore.instance.
+  //   // collection('shops').doc(producData.shopId).
+  //   collection('products').doc(widget.data.id).update(producData.toJson());
+  //
+  //
+  // }
 }

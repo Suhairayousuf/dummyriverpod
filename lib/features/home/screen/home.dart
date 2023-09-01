@@ -1,8 +1,12 @@
 // import 'package:dummyriverpod/main.dart';
 import 'dart:async';
 
+import 'package:dummyriverpod/core/globals/local_variables.dart';
+import 'package:dummyriverpod/features/auth/controller/auth_controller.dart';
+import 'package:dummyriverpod/features/auth/screens/login_screen.dart';
 import 'package:dummyriverpod/features/product/screens/update_product.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/utils/utils.dart';
 import '../../../theme/pallete.dart';
@@ -15,26 +19,24 @@ String currentPlace = '';
 String administrativeArea = '';
 
 
-class HomePageWidget extends StatefulWidget {
+class HomePageWidget extends ConsumerStatefulWidget {
   const HomePageWidget({Key? key}) : super(key: key);
 
   @override
-  State<HomePageWidget> createState() => _HomePageWidgetState();
+  ConsumerState<HomePageWidget> createState() => _HomePageWidgetState();
 }
 
-class _HomePageWidgetState extends State<HomePageWidget> {
+class _HomePageWidgetState extends ConsumerState<HomePageWidget> {
 
 
   @override
   void initState() {
- ;
     // TODO: implement initState
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    width=MediaQuery.of(context).size.width;
-    height=MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -63,10 +65,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               Navigator.pop(context);
                             },
                                 child: const Text('Cancel')),
-                            TextButton(onPressed: (){
-
-                              // signOut(context);
-                              // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPageWidget(),), (route) => false);
+                            TextButton(onPressed: ()async{
+                              logout();                              // signOut(context);
+                               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen(),), (route) => false);
 
                             },
                                 child:  Text('Yes',style: TextStyle(
@@ -253,6 +254,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       ),
     );
     // );
+  }
+  void logout()async{
+    userDataBox?.delete('email');
+    ref.read(authControllerProvider.notifier).logout();
   }
 }
 

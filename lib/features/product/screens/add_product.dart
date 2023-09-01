@@ -1,18 +1,18 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dummyriverpod/features/product/screens/product_list.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../core/utils/utils.dart';
 import '../../../model/product_model.dart';
 import '../../../theme/pallete.dart';
+import '../controller/product_controller.dart';
 class AddProducts extends StatefulWidget {
 
   const AddProducts({Key? key, }) : super(key: key);
@@ -303,37 +303,41 @@ class _AddProductsState extends State<AddProducts> {
                                 Navigator.pop(buildcontext);
                               },
                                   child:  Text('Cancel',style:GoogleFonts.outfit())),
-                              TextButton(onPressed: () async {
+                              Consumer(
+                                builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                                  return TextButton(onPressed: () async {
 
-                                final productData = ProductModel(
-                                  amount:double.tryParse(amount.text!.toString()),
-                                  createdDate:DateTime.now(),
-                                  // shopId:widget.shopId,
-                                  image:photourl,
-                                  productName:name.text,
-                                  description: discription.text,
-                                  // deal: _switchValue,
-                                  // offerPercentage: double.tryParse(percentage.text,)??0.00,
-                                  // shopCategory:widget.category,
+                                    final productData = ProductModel(
+                                      amount:double.tryParse(amount.text!.toString()),
+                                      createdDate:DateTime.now(),
+                                      image:photourl,
+                                      productName:name.text,
+                                      description: discription.text,
 
-                                );
-                                await createProducts( productData,);
 
-                                 showSnackBar(context, 'Product added succesfully');
-                                //   ,);
-                                Navigator.pop(context);
-                                Navigator.pop(buildcontext);
+                                    );
+                                    // await createProducts( productData,);
+                                    await ref.read(productControllerProvider.notifier).
+                                    addProduct(context: context, productmodel: productData);
 
-                                photourl='';
-                                selectedEndtDate==null;
-                                selectedStartDate==null;
-                                setState(() {
+                                    showSnackBar(context, 'Product added succesfully');
+                                    //   ,);
+                                    Navigator.pop(context);
+                                    Navigator.pop(buildcontext);
 
-                                });
+                                    photourl='';
+                                    selectedEndtDate==null;
+                                    selectedStartDate==null;
+                                    // setState(() {
+                                    //
+                                    // });
 
-                                // Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => ManagePage(),), (route) => false);
-                              },
-                                  child: const Text('Yes')),
+                                    // Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => ManagePage(),), (route) => false);
+                                  },
+                                      child: const Text('Yes'));
+                                },
+
+                              ),
                             ],
                           );
 
@@ -392,17 +396,17 @@ class _AddProductsState extends State<AddProducts> {
       ),
     );
   }
-  createProducts(ProductModel producData,) async {
-
-    FirebaseFirestore.instance.
-    // collection('shops').doc(producData.shopId).
-    collection('products').add(producData.toJson())
-        .then((value) {
-
-      value.update({
-        'id':value.id
-      });
-    });
-
-  }
+  // createProducts(ProductModel producData,) async {
+  //
+  //   FirebaseFirestore.instance.
+  //   // collection('shops').doc(producData.shopId).
+  //   collection('products').add(producData.toJson())
+  //       .then((value) {
+  //
+  //     value.update({
+  //       'id':value.id
+  //     });
+  //   });
+  //
+  // }
 }

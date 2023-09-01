@@ -1,12 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/adapters.dart';
 
-import 'features/auth/screens/home.dart';
+import 'core/globals/local_variables.dart';
+import 'features/auth/screens/login_screen.dart';
+import 'features/splash/screen/splash_screen.dart';
 import 'firebase_options.dart';
 // final nameProvider  =   Provider((ref) => 'xyz');
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  userDataBox=await Hive.openBox('userDetailes');
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -35,7 +41,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const HomePageWidget(),
+      home:  Splash(),
     );
   }
 }

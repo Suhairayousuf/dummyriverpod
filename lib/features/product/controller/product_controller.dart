@@ -6,15 +6,40 @@ import '../repository/product_repository.dart';
 
 
 final productControllerProvider=
-StateNotifierProvider<ProductController,bool>((ref) => ProductController(ref: ref));
+AutoDisposeNotifierProvider<ProductController,bool>(() => ProductController());
 
-class ProductController  extends StateNotifier<bool>{
-  final Ref ref;
-  ProductController({required this.ref}):super(false);
+final getProductStreamProvider= StreamProvider.autoDispose((ref) {
+  final getRepproduct=ref.watch(productControllerProvider.notifier);
+  return getRepproduct.getProduct();
+} );
+
+class ProductController  extends AutoDisposeNotifier<bool>{
+  @override
+  bool build() {
+    return false;
+}
+
   addProduct({required BuildContext context,required ProductModel productmodel }){
-    final repositoryData=ref.watch(productRepositoryProvider);
-   final data= repositoryData.addProduct(context:context,productmodel: productmodel);
+      final repositoryData=ref.watch(productRepositoryProvider);
+      final data= repositoryData.addProduct(context:context,productmodel: productmodel);
+
+
   }
+  Stream<List<ProductModel>>getProduct(){
+    return ref.watch(productRepositoryProvider).getProducts();
+  }
+
+  updateProduct({required BuildContext context,required ProductModel productmodel }){
+    final repositoryData=ref.watch(productRepositoryProvider);
+    final data= repositoryData.updateProduct(context:context,productmodel: productmodel);
+
+
+  }
+  deleteProduct({required BuildContext context,required ProductModel productmodel}){
+    final repositoryData=ref.watch(productRepositoryProvider);
+    final data= repositoryData.deleteProduct(context:context,productmodel: productmodel);
+  }
+
 
 
 }

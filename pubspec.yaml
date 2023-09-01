@@ -45,7 +45,11 @@ dependencies:
   firebase_storage:
   file_picker:
   firebase_core: ^2.15.1
+  hive_flutter:
+  google_sign_in:
+  firebase_auth:
   google_fonts:
+  fpdart:
 
 dev_dependencies:
   flutter_test:
