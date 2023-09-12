@@ -13,15 +13,15 @@ import '../../../core/utils/utils.dart';
 import '../../../model/product_model.dart';
 import '../../../theme/pallete.dart';
 import '../controller/product_controller.dart';
-class AddProducts extends StatefulWidget {
+class AddProducts extends ConsumerStatefulWidget {
 
   const AddProducts({Key? key, }) : super(key: key);
 
   @override
-  State<AddProducts> createState() => _AddProductsState();
+  ConsumerState<AddProducts> createState() => _AddProductsState();
 }
 
-class _AddProductsState extends State<AddProducts> {
+class _AddProductsState extends ConsumerState<AddProducts> {
   TextEditingController discription = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController amount = TextEditingController();
@@ -64,10 +64,17 @@ class _AddProductsState extends State<AddProducts> {
       // showSnackBar(context, 'Uploading');
     });
   }
+  addProduct(BuildContext context,ProductModel productmodel){
+    ref.read(productControllerProvider.notifier).addProduct(context: context, productmodel: productmodel);
+
+  }
 
 
   @override
   Widget build(BuildContext context) {
+
+    print('rebuild');
+
     width = MediaQuery.of(context).size.width;
     DateTime date = DateTime.now();
     return Scaffold(
@@ -89,10 +96,6 @@ class _AddProductsState extends State<AddProducts> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProductList(
-                        shopId:"widget.shopId",
-                        // shopId:widget.shopId,
-                        // currencyShort:widget.currencyShort
-                        currencyShort:"widget.currencyShort"
                     ),
                   ));
             },
@@ -303,42 +306,35 @@ class _AddProductsState extends State<AddProducts> {
                                 Navigator.pop(buildcontext);
                               },
                                   child:  Text('Cancel',style:GoogleFonts.outfit())),
-                              Consumer(
-                                builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                                  return TextButton(onPressed: () async {
+                              TextButton(onPressed: () async {
 
-                                    final productData = ProductModel(
-                                      amount:double.tryParse(amount.text!.toString()),
-                                      createdDate:DateTime.now(),
-                                      image:photourl,
-                                      productName:name.text,
-                                      description: discription.text,
+                        final productData = ProductModel(
+                        amount:double.tryParse(amount.text!.toString()),
+                        createdDate:DateTime.now(),
+                        image:photourl,
+                        productName:name.text,
+                        description: discription.text,
+                        );
+                        // await createProducts( productData,);
+                        // await ref.read(productControllerProvider.notifier).
+                        // addProduct(context: context, productmodel: productData);
+                        addProduct(context, productData);
 
+                        showSnackBar(context, 'Product added succesfully');
+                        //   ,);
+                        Navigator.pop(context);
+                        Navigator.pop(buildcontext);
 
-                                    );
-                                    // await createProducts( productData,);
-                                    await ref.read(productControllerProvider.notifier).
-                                    addProduct(context: context, productmodel: productData);
+                        photourl='';
+                        selectedEndtDate==null;
+                        selectedStartDate==null;
+                        // setState(() {
+                        //
+                        // });
 
-                                    showSnackBar(context, 'Product added succesfully');
-                                    //   ,);
-                                    Navigator.pop(context);
-                                    Navigator.pop(buildcontext);
-
-                                    photourl='';
-                                    selectedEndtDate==null;
-                                    selectedStartDate==null;
-                                    // setState(() {
-                                    //
-                                    // });
-
-                                    // Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => ManagePage(),), (route) => false);
-                                  },
-                                      child: const Text('Yes'));
-                                },
-
-                              ),
-                            ],
+                        // Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => ManagePage(),), (route) => false);
+                        },
+                        child: const Text('Yes')),                          ],
                           );
 
                         });

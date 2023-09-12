@@ -5,7 +5,7 @@ import 'package:hive_flutter/adapters.dart';
 
 import 'core/globals/local_variables.dart';
 import 'features/auth/screens/login_screen.dart';
-import 'features/splash/screen/splash_screen.dart';
+import 'features/auth/screens/splash_screen.dart';
 import 'firebase_options.dart';
 // final nameProvider  =   Provider((ref) => 'xyz');
 

@@ -3,6 +3,10 @@ class UserModel {
   final String profilePic;
   final String uid;
   final String email;
+  final String mobileNumber;
+  final String countryCode;
+  final int otp;
+  final DateTime otpUpdate;
 
 
   UserModel({
@@ -10,6 +14,10 @@ class UserModel {
     required this.profilePic,
     required this.email,
     required this.uid,
+    required this.mobileNumber,
+    required this.countryCode,
+    required this.otp,
+    required this.otpUpdate,
 
   });
 
@@ -18,6 +26,10 @@ class UserModel {
     String? profilePic,
     String? email,
     String? uid,
+    String? mobileNumber,
+    String? countryCode,
+    int? otp,
+    DateTime? otpUpdate,
 
   }) {
     return UserModel(
@@ -25,6 +37,10 @@ class UserModel {
       profilePic: profilePic ?? this.profilePic,
       email: email ?? this.email,
       uid: uid ?? this.uid,
+      mobileNumber: mobileNumber ?? this.mobileNumber,
+      countryCode: countryCode ?? this.countryCode,
+      otp: otp ?? this.otp,
+      otpUpdate: otpUpdate ?? this.otpUpdate,
 
     );
   }
@@ -34,6 +50,10 @@ class UserModel {
       'profilePic': profilePic,
       'email': email,
       'uid': uid,
+      'mobileNumber': mobileNumber,
+      'countryCode': countryCode,
+      'otp': otp,
+      'otpUpdate': otpUpdate,
 
     };
   }
@@ -44,6 +64,10 @@ class UserModel {
       profilePic: map['profilePic'] ?? '',
       email: map['email'] ?? '',
       uid: map['uid'] ?? '',
+      mobileNumber: map['mobileNumber'] ?? '',
+      countryCode: map['countryCode'] ?? '',
+      otp: map['otp'] ?? '',
+      otpUpdate: map['otpUpdate'] ?? '',
 
     );
   }

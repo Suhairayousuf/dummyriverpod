@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import '../../../core/utils/utils.dart';
 
 String userEmail='';
+String currentUserId='';
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
 
@@ -26,9 +27,10 @@ class _SplashState extends State<Splash> {
 
     // final localStorage= await SharedPreferences.getInstance();
 
-    bool? log=userDataBox?.containsKey('email');
+    bool? log=userDataBox?.containsKey('uid');
     if(log==true) {
       userEmail=userDataBox?.get('email')!;
+      currentUserId=userDataBox?.get('uid')!;
       // if(shopAdmins.contains(currentShopUserEmail)){
       login=true;
       setState(() {

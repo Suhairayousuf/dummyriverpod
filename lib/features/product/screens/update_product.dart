@@ -14,22 +14,14 @@ import '../../../core/utils/utils.dart';
 import '../../../model/product_model.dart';
 import '../../../theme/pallete.dart';
 import '../controller/product_controller.dart';
-
-
-
-
-
 class EditProducts extends StatefulWidget {
   final ProductModel data;
-
-
   const EditProducts({Key? key, required this.data,
   }) : super(key: key);
 
   @override
   State<EditProducts> createState() => _EditProductsState();
 }
-
 class _EditProductsState extends State<EditProducts> {
   TextEditingController discription = TextEditingController();
   TextEditingController name = TextEditingController();
