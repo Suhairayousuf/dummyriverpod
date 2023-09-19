@@ -220,7 +220,8 @@ class ProductList extends ConsumerWidget {
                       },
                     );
                   },
-                  error: (error, stackTrace) => Text(error.toString()),
+                  // error: (error, stackTrace) => Text(error.toString()),
+                  error: (error, stackTrace) => Text('Something went wrong'),
                   loading: () => CircularProgressIndicator());
             },
           )

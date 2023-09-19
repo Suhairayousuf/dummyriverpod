@@ -65,7 +65,8 @@ class _AddProductsState extends ConsumerState<AddProducts> {
     });
   }
   addProduct(BuildContext context,ProductModel productmodel){
-    ref.read(productControllerProvider.notifier).addProduct(context: context, productmodel: productmodel);
+    ref.read(productControllerProvider.notifier).
+    addProduct(context: context, productmodel: productmodel);
 
   }
 
